@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MasterService } from '../../service/master.service';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-enquiry',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,AsyncPipe],
   templateUrl: './new-enquiry.component.html',
   styleUrl: './new-enquiry.component.css',
 })
@@ -18,6 +21,27 @@ export class NewEnquiryComponent {
     email: '',
     message: '',
     createdDate: new Date(),
-    resolution: ''
+    resolution: '',
   };
+  masterSrv = inject(MasterService);
+
+  typeList: Observable<any> = new Observable<any>();
+  statusList: Observable<any> = new Observable<any>();
+
+  constructor(){
+    this.typeList = this.masterSrv.getTypes();
+    this.statusList = this.masterSrv.getStatus();
+  }
+
+  onSave() {
+    debugger;
+    this.masterSrv.createEnquiry(this.newEnquiryObj).subscribe(
+      (res: any) => {
+        debugger;
+      },
+      (error) => {
+        debugger;
+      }
+    );
+  }
 }

@@ -1,4 +1,5 @@
 ﻿using Enquiry.API.Model;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,7 @@ namespace Enquiry.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("allowCors")]
     public class EnquiryMasterController : ControllerBase
     {
         private readonly EnquiryDbContext _context;  //injecting DbContext class into constructor
@@ -68,8 +70,8 @@ namespace Enquiry.API.Controllers
         [HttpDelete("DeleteEnquiryById")]
         public bool DeleteEnquiryById(int id)
         {
-            var record = _context.EnquiryModels.SingleOrDefault(n=> n.enquiryId == id);
-            if (record != null) 
+            var record = _context.EnquiryModels.SingleOrDefault(n => n.enquiryId == id);
+            if (record != null)
             {
                 _context.EnquiryModels.Remove(record);
                 _context.SaveChanges();
@@ -80,7 +82,5 @@ namespace Enquiry.API.Controllers
                 return false;
             }
         }
-
-
     }
 }
