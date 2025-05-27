@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquiry Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        }
+        .form-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .form-header h2 {
+            color: #1a365d;
+        }
+        .form-header p {
+            color: #4a5568;
+        }
+        .invalid-feedback {
+            display: none;
+        }
+        .form-control.is-invalid ~ .invalid-feedback {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Submit an Enquiry</h2>
+                <p>Please fill out the form below and we'll get back to you as soon as possible.</p>
+            </div>
+
+            <form id="enquiryForm" novalidate>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="enquiryTypeId" class="form-label">Enquiry Type</label>
+                        <select name="enquiryTypeId" [(ngModel)]="newEnquiryObj.enquiryTypeId" name="enquiryTypeId" [(ngModel)]="newEnquiryObj.enquiryTypeId" id="enquiryTypeId">
+                            <option value="">Select enquiry type</option>
+                            <option value="1">General Inquiry</option>
+                            <option value="2">Product Support</option>
+                            <option value="3">Billing Issue</option>
+                            <option value="4">Technical Support</option>
+                            <option value="5">Feature Request</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="enquiryStatusId" class="form-label">Enquiry Status</label>
+                        <select name="enquiryTypeId" [(ngModel)]="newEnquiryObj.enquiryStatusId" id="enquiryStatusId" name="enquiryTypeId" [(ngModel)]="newEnquiryObj.enquiryTypeId">
+                            <option value="">Select status</option>
+                            <option value="1">New</option>
+                            <option value="2">In Progress</option>
+                            <option value="3">Resolved</option>
+                            <option value="4">Closed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="customerName" class="form-label">Full Name</label>
+                    <input type="text" name="customerName" [(ngModel)]="newEnquiryObj.customerName" id="customerName" placeholder="Enter your full name" required>
+                    <div class="invalid-feedback">Please enter your name</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="mobileNo" class="form-label">Mobile Number</label>
+                        <input type="tel" name="mobileNo" [(ngModel)]="newEnquiryObj.mobileNo" id="mobileNo" placeholder="Enter your mobile number" pattern="[0-9]{10}" required>
+                        <div class="invalid-feedback">Please enter a valid 10-digit mobile number</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" name="email" [(ngModel)]="newEnquiryObj.email" id="email" placeholder="Enter your email address" required>
+                        <div class="invalid-feedback">Please enter a valid email address</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea name="message" [(ngModel)]="newEnquiryObj.message" id="message" rows="4" placeholder="Please describe your enquiry in detail" required></textarea>
+                    <div class="invalid-feedback">Please enter your message</div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="resolution" class="form-label">Resolution (Internal Use)</label>
+                    <textarea name="resolution" [(ngModel)]="newEnquiryObj.resolution" id="resolution" rows="3" placeholder="For internal use - resolution details"></textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary px-5 py-2">Submit Enquiry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('enquiryForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            if (!this.checkValidity()) {
+                event.stopPropagation();
+                this.classList.add('was-validated');
+                return;
+            }
+
+            const formData = {
+                enquiryTypeId: parseInt(document.getElementById('enquiryTypeId').value),
+                enquiryStatusId: parseInt(document.getElementById('enquiryStatusId').value),
+                customerName: document.getElementById('customerName').value,
+                mobileNo: document.getElementById('mobileNo').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                resolution: document.getElementById('resolution').value,
+                createdDate: new Date().toISOString()
+            };
+
+            console.log('Form submitted:', formData);
+            // Here you would typically send the data to your server
+            alert('Form submitted successfully!');
+            this.reset();
+            this.classList.remove('was-validated');
+        });
+    </script>
+</body>
+</html>
